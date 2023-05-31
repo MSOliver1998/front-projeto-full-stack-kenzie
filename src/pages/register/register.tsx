@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import {useForm} from 'react-hook-form'
 import { RegisterStyled } from "./registerStyled"
-import { tRegister, tRegister2} from "../../interfaces/register/registerinterface"
+import { tRegister, tRegister2} from "../../interfaces/register/registerInterface"
 import { registerSchema, registerSchema2 } from "../../schemas/register/registerSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { api } from "../../services/api"

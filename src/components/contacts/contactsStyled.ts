@@ -3,14 +3,17 @@ import styled from 'styled-components'
 const CardStyled=styled.li`
     
     list-style:none;
-
-    & div{
-        max-width:200px;
+    
+    div{
+        width:250px;
         background-color:orange;
-        color:black;
         padding:15px;
         border-radius:5px;
-        margin:10px
+        margin:10px;
+        
+        h1,h2,h3,p{
+            color:black;
+        }
     }
 
 `

@@ -1,6 +1,7 @@
 import {z} from 'zod'
-import { contact } from '../../schemas/contacts/contactsSchema'
+import { contactSchema, contactsSchema } from '../../schemas/contacts/contactsSchema'
 
-type tContacts=z.infer<typeof contact>
+type tContact=z.infer<typeof contactSchema>
+type tContacts=z.infer<typeof contactsSchema>
 
-export type {tContacts}
+export type {tContact,tContacts}

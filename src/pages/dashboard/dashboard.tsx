@@ -4,6 +4,12 @@ import { ContactsCards } from "../../components/contacts/contacts"
 import { tContacts } from "../../interfaces/contacts/contactsinterface"
 import { AuthContext } from "../../contexts/authContexts/authContext"
 import { DashboardStyled } from "./dashboardStyle"
+import { Modal } from "../../components/modal/modalBase/modal"
+import { ModalContacts } from "../../components/modal/modalContacts/modal"
+import {BsFillPersonPlusFill} from "react-icons/bs"
+import {FiLogOut} from "react-icons/fi"
+import {IoMdContact} from "react-icons/io"
+
 
 function Dashboard(){
 
@@ -26,11 +32,13 @@ function Dashboard(){
     return(
         <DashboardStyled>
             <header>
-                <h1>Books Contacts</h1>
+                <h1>Book Contacts</h1>
                 <nav className='menu'>
-                    <button type='button'>+</button>
-                    <button type='button' onClick={()=>logout()}>logout</button>
-
+                    <Modal modalContent={
+                        <ModalContacts/>
+                    } title="contatos"><BsFillPersonPlusFill size={'25px'}/></Modal>
+                    <IoMdContact color={'white'} size={'50px'}/>
+                    <button type='button' onClick={()=>logout()}><FiLogOut size={'25px'}/></button>
                 </nav>
             </header>
             <ul>
@@ -45,7 +53,11 @@ function Dashboard(){
                 {!contacts && 
                     <>
                         <h2>nenhum contato encontrado</h2>
-                        <button>criar contato</button>
+                        <Modal 
+                        modalContent={
+                            <ModalContacts/>
+                        } title="contatos"
+                        >criar contactos</Modal>
                     </>
                 }
             </ul>

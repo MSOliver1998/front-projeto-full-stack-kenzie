@@ -5,21 +5,30 @@ import { tContact} from "../../../interfaces/contacts/contactsinterface"
 import { api } from "../../../services/api"
 import { useContext } from "react"
 import { AuthContext } from "../../../contexts/authContexts/authContext"
+import {toast} from 'react-toastify'
+import { ModalContext } from "../modalBase/modalContext/modalContext"
 
 function ModalContacts(){
 
     const {setContacts,user}=useContext(AuthContext)
+    const {closeModal}=useContext(ModalContext)
 
     const { register, handleSubmit ,formState:{errors}} = useForm<tContact>({
         resolver: zodResolver(contactSchema)
     })
 
     async function createContact(data:tContact){
+        try{
+            data.telefone=data.telefone.split(" ").join("")
+            await api.post('/contacts',data)
+            const response= await api.get(`contacts/${user}`)
+            toast.success('contato criado com sucesso')
+            closeModal()
+            setContacts(response.data.contacts)
+        }catch(error:any){
+            toast.error(error.response.data.message)
+        }
 
-        data.telefone=data.telefone.split(" ").join("")
-        await api.post('/contacts',data)
-        const response= await api.get(`contacts/${user}`)
-        setContacts(response.data.contacts)
 
     }
 

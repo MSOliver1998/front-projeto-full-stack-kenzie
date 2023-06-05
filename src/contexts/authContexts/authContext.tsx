@@ -5,6 +5,7 @@ import { api } from "../../services/api";
 import jwtDecode from "jwt-decode";
 import { tRegisterPartial } from "../../interfaces/register/registerInterface";
 import { tContacts } from "../../interfaces/contacts/contactsinterface";
+import { toast } from "react-toastify";
 
 interface iToken{
     sub:string,
@@ -73,11 +74,12 @@ function AuthProvider({children}:iAuthProvider){
         }
         user && getContacts()
         !profile && loadProfile()
-    },[user])
+    },[profile, user])
 
 
     async function logout(){
         localStorage.removeItem('token')
+        toast.success('logout feito com sucesso volte logo!')
         setLoading(true)
         navigate('/')
     }
@@ -93,10 +95,10 @@ function AuthProvider({children}:iAuthProvider){
             const {sub}= jwtDecode<iToken>(token)
             setUser(sub)
             setLoading(false)
+            toast.success('login feito com sucesso')
             navigate('dashboard')
-        } catch (error) {
-            console.error(error)
-            console.log('aqui')
+        } catch (error:any) {
+            toast.error(error.response.data.message)
         }
     }
 

@@ -8,6 +8,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../../contexts/authContexts/authContext";
 import { ModalContext } from "../modalBase/modalContext/modalContext";
 import { contactUpdateSchema } from "../../../schemas/contacts/contactsSchema";
+import { toast } from 'react-toastify'
 
 interface iModalProps{
     user: 'user'| 'contact'
@@ -34,36 +35,31 @@ function ModalEditar({user,userInfo,id}:iModalProps){
     }
 
     async function updateContact(data:tContactPartial){
-        if(data.email==userInfo.email || data.email==''){
-            delete userInfo.email
-            delete data.email
-        }
-
+    
         const newData:any=removeEmptyProperties(data)
         const newUser:tContactPartial={...userInfo,...newData}
         try{
             await api.patch(`contacts/${id}`,newUser)
             const response= await api.get(`/contacts/${userId}`) 
             setContacts(response.data.contacts)
+            toast.success('contato alterado com sucesso')
             closeModal()
-        }catch(err:any){
-            console.log(err.response.data)
+        }catch(error:any){
+            toast.error(error.response.data.message)
         }
     }
 
     async function updateUser(data:tRegisterPartial){
-        if(data.email==userInfo.email || data.email==''){
-            delete userInfo.email
-            delete data.email
-        }
+        
         const newData:any=removeEmptyProperties(data)
         const newUser:tRegisterPartial={...userInfo,...newData}
         try{
             await api.patch(`users/${userId}`,newUser)
             setProfile(newUser)
+            toast.success('perfil editado com sucesso')
             closeModal()
-        }catch(err:any){
-            console.log(err.response.data)
+        }catch(error:any){
+            toast.error(error.response.data.message)
         }
     }
 

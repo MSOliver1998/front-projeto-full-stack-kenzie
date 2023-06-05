@@ -4,7 +4,7 @@ import {  tContacts } from "../../interfaces/contacts/contactsinterface"
 import { AuthContext } from "../../contexts/authContexts/authContext"
 import { DashboardStyled } from "./dashboardStyle"
 import { Modal } from "../../components/modal/modalBase/modal"
-import { ModalContacts } from "../../components/modal/modalContacts/modal"
+import { ModalContacts } from "../../components/modal/modalContacts/modalContacts"
 import {BsFillPersonPlusFill} from "react-icons/bs"
 import {FiLogOut} from "react-icons/fi"
 import {IoMdContact} from "react-icons/io"
@@ -14,7 +14,6 @@ import { ModalEditar } from "../../components/modal/modalEdit/modalEditar"
 function Dashboard(){
 
     const {logout,profile,contacts}=useContext(AuthContext)
-    console.log(profile)
     
     return(
         <DashboardStyled>
@@ -46,7 +45,7 @@ function Dashboard(){
                         modalContent={
                             <ModalContacts/>
                         } title="contatos"
-                        >criar contactos</Modal>
+                        >criar contatos</Modal>
                     </>
                 }
             </ul>

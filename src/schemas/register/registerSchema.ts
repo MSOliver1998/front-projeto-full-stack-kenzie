@@ -23,9 +23,8 @@ const registerSchema=registerResponseSchema.extend({
   message: "Passwords don't match",
   path: ["confirm"]
 });
- 
 
 const registerUpdateSchema=registerResponseSchema.omit({id:true}).partial()
 
 
-export {registerSchema,registerResponseSchema,registerUpdateSchema}
+export {registerSchema,registerResponseSchema,registerUpdateSchema,}

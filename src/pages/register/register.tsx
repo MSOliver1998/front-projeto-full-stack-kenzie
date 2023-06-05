@@ -1,13 +1,15 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import {useForm} from 'react-hook-form'
 import { RegisterStyled } from "./registerStyled"
-import { tRegister, tRegisterWhitoutConfirm, } from "../../interfaces/register/registerInterface"
-import { registerResponseSchema, registerSchema, } from "../../schemas/register/registerSchema"
+import { tRegister } from "../../interfaces/register/registerInterface"
+import { registerSchema} from "../../schemas/register/registerSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { api } from "../../services/api"
-
+import { toast } from 'react-toastify'
 
 function Register(){
+
+    const navigate=useNavigate()
 
     const { register, handleSubmit, formState: { errors }, } = useForm<tRegister>({
         resolver:zodResolver(registerSchema)
@@ -15,12 +17,15 @@ function Register(){
 
     async function registerUser(data:tRegister){
 
-        const newData:tRegisterWhitoutConfirm= registerResponseSchema.parse(data)
-
-        const response= await api.post('/users',newData)
-        console.log(response)
+        const newData:tRegister= registerSchema.parse(data)
+        try{
+            await api.post('/users',newData)
+            toast.success('usuario cadastrado com sucesso')
+            navigate('/')
+        }catch(error:any){
+            toast.error(error.response.data.message)
+        }
     }
-
 
     return(
         <RegisterStyled>

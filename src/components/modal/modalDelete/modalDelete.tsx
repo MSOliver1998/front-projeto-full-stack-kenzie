@@ -33,7 +33,7 @@ function ModalDelete({contact,id}:modalDelete){
     }
 
     function changed(){
-        const value=inputRef.current.value
+        const {value}=inputRef.current as HTMLInputElement
         setButton(value!=deleteText)
     }
 

@@ -98,7 +98,7 @@ function AuthProvider({children}:iAuthProvider){
             toast.success('login feito com sucesso')
             navigate('dashboard')
         } catch (error:any) {
-            toast.error(error.response.data.message)
+            toast.error(error.response)
         }
     }
 

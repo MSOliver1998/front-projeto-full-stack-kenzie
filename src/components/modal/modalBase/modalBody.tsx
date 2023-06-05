@@ -25,30 +25,32 @@ function ModalBody({modalContent,setModal,modal,title,style}:modalDeps){
     
     
     useEffect(()=>{
-        function modalOutClick(event: { target: any }) {
-            const {target} = event
-            const {current} = refModal
+        function modalOutClick(event:Event) {
+            if(event){
+                const {target} = event
+                const {current} = refModal
+                current && target && !current.contains(target as HTMLElement) && setModal(false)
+            }
             
-            current && !current.contains(target) && setModal(false)
         }
-        window.addEventListener("mousedown", modalOutClick)
+        window.addEventListener("mousedown",modalOutClick)
      
         return ()=>{
             window.removeEventListener("mousedown", modalOutClick)
         };
-    },[]);
+    },[setModal]);
 
 
     useEffect(()=>{
         modal && setModalOpen(true)  
         !modal && setModalOpen(false)  
-    },[modal])
+    },[modal, setModalOpen])
 
 
     useEffect(()=>{
         !modalIsOpen && setModal(false)
         modalIsOpen && setModal(true)
-    },[modalIsOpen])
+    },[modalIsOpen, setModal])
 
    
     return  modalIsOpen?

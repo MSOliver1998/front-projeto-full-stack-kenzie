@@ -29,7 +29,8 @@ const DashboardStyled=styled.div`
 
     ul{
         display:flex;
-        justify-content:space-between;
+        flex-wrap:wrap;
+        justify-content:center;
         gap:15px;
         padding: 10px 120px;
     }

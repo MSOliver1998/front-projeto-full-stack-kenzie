@@ -1,10 +1,12 @@
 import {z} from 'zod'
-import { registerSchema, registerSchema2 } from '../../schemas/register/registerSchema'
+import { registerResponseSchema, registerSchema, registerUpdateSchema } from '../../schemas/register/registerSchema'
 
 type tRegister=z.infer<typeof registerSchema>
-type tRegister2=z.infer<typeof registerSchema2>
+type tRegisterWhitoutConfirm=z.infer<typeof registerResponseSchema>
+type tRegisterPartial=z.infer<typeof registerUpdateSchema>
 
 export type{
     tRegister,
-    tRegister2
+    tRegisterPartial,
+    tRegisterWhitoutConfirm
 }

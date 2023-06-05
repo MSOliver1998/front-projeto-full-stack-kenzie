@@ -1,27 +1,32 @@
 import { useForm } from "react-hook-form"
-import { ModalContactsStyled } from "./modalContactsStyled"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { contactSchema } from "../../../schemas/contacts/contactsSchema"
 import { tContact} from "../../../interfaces/contacts/contactsinterface"
 import { api } from "../../../services/api"
+import { useContext } from "react"
+import { AuthContext } from "../../../contexts/authContexts/authContext"
 
 function ModalContacts(){
+
+    const {setContacts,user}=useContext(AuthContext)
 
     const { register, handleSubmit ,formState:{errors}} = useForm<tContact>({
         resolver: zodResolver(contactSchema)
     })
 
-    function createContact(data:tContact){
+    async function createContact(data:tContact){
 
         data.telefone=data.telefone.split(" ").join("")
-        api.post('/contacts',data)
+        await api.post('/contacts',data)
+        const response= await api.get(`contacts/${user}`)
+        setContacts(response.data.contacts)
+
     }
 
     return(
-        <ModalContactsStyled>
             <form onSubmit={handleSubmit(createContact)}>
                 <label htmlFor="name">Name</label>
-                <input type="text" id="name" {...register('name')} placeholder="Name" />
+                <input type="text" id="name" {...register('name')} placeholder="Name"/>
                 {errors.name && <p>{errors.name?.message}</p>}
 
                 <label htmlFor="email" >Email</label>
@@ -34,7 +39,6 @@ function ModalContacts(){
 
                 <button type="submit">Cadastrar</button>
             </form>
-        </ModalContactsStyled>
     )
 }
 

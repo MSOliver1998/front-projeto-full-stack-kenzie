@@ -16,7 +16,7 @@ function ModalDelete({contact,id}:modalDelete){
     const {closeModal}=useContext(ModalContext)
     const {user,setContacts}=useContext(AuthContext)
     const [button,setButton]=useState(true)
-    const inputRef=useRef(HTMLInputElement)
+    const inputRef=useRef(null as unknown as HTMLInputElement)
 
     const deleteText=`Delete${contact.name.toLocaleUpperCase()}`.split(' ').join('')
 
@@ -33,7 +33,7 @@ function ModalDelete({contact,id}:modalDelete){
     }
 
     function changed(){
-        const value=inputRef.current.value
+        const {value}=inputRef.current as HTMLInputElement
         setButton(value!=deleteText)
     }
 

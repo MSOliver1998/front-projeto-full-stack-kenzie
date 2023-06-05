@@ -1,42 +1,38 @@
-import { ReactNode, useContext, useState } from "react"
-import { ModalContext } from "../../../contexts/modalContext/modalContext"
-import { ModalStyled } from "./modalStyled"
+import {ReactNode,useState } from "react"
+import { ModalBase} from "./modalStyled"
+import ModalBody from "./modalBody"
+import { ModalProvider } from "./modalContext/modalContext"
+
 
 
 interface Modal{
     children:ReactNode,
     modalContent:ReactNode,
     title?:string,
+    style?:{
+        background?:string,
+        buttonSize?:string,
+        color?:string,
+    },
 }
 
-function Modal({children,modalContent,title='modal'}:Modal){
+function Modal({children,modalContent,title='',style}:Modal){
 
-    const [modal,setModal]=useState(false)
-    const {modalIsOpen,setModalIsOpen}=useContext(ModalContext)
-
-    function openModal(){
-        setModalIsOpen(!modalIsOpen)
-        setModal(!modal)
-    }
+    const [modal,setModal]=useState(false)    
     
     return(
-        <>
-            <button type='button' onClick={openModal}>{children}</button>
-            {
-                modal && 
-                <ModalStyled>
-                    <div className="modal">
-                        <div className="title">
-                            <h2>{title}</h2>
-                            <button className="close" onClick={openModal}>X</button>
-                        </div>
-                        <div className="content">
-                            {modalContent}
-                        </div>
-                    </div>
-                </ModalStyled>
-            }
-        </>
+        <ModalProvider>
+            <ModalBase $buttonSize={style?.buttonSize} $color={style?.color}>
+                {
+                    typeof(children)!='object' 
+                    ? 
+                    <button type='button' onClick={()=>{setModal(!modal)}}>{children}</button> 
+                    : 
+                    <button type='button' className="transparent" onClick={()=>{setModal(!modal)}}>{children}</button>
+                }
+                <ModalBody modalContent={modalContent} title={title} style={style} setModal={setModal} modal={modal}/>
+            </ModalBase>
+        </ModalProvider>
     )
 }
 

@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom"
 import {useForm} from 'react-hook-form'
 import { RegisterStyled } from "./registerStyled"
-import { tRegister, tRegister2} from "../../interfaces/register/registerInterface"
-import { registerSchema, registerSchema2 } from "../../schemas/register/registerSchema"
+import { tRegister, tRegisterWhitoutConfirm, } from "../../interfaces/register/registerInterface"
+import { registerResponseSchema, registerSchema, } from "../../schemas/register/registerSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { api } from "../../services/api"
 
@@ -15,7 +15,7 @@ function Register(){
 
     async function registerUser(data:tRegister){
 
-        const newData:tRegister2= registerSchema2.parse(data)
+        const newData:tRegisterWhitoutConfirm= registerResponseSchema.parse(data)
 
         const response= await api.post('/users',newData)
         console.log(response)
